@@ -24,7 +24,7 @@
         <Label Content="Редактировать" HorizontalAlignment="Left" Margin="142,23,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="20" FontWeight="Bold"/>
         <Label Content="Диагноз" HorizontalAlignment="Left" Margin="29,195,0,0" VerticalAlignment="Top"
             FontFamily="Times New Roman" FontSize="14"/>
-        <TextBox x:Name="DiagnosTxB" Text="{Binding TimeReception}" HorizontalAlignment="Left" Height="23" Margin="209,195,0,0" TextWrapping="Wrap" 
+        <TextBox x:Name="DiagnosTxB" Text="{Binding Diagnoses}" HorizontalAlignment="Left" Height="23" Margin="209,195,0,0" TextWrapping="Wrap" 
             VerticalAlignment="Top" Width="215"/>
 
 

@@ -28,6 +28,7 @@ namespace ClinicIS
             UserNameLbl.Content = user.SurName + " " + user.Name + " " + user.Patronymic;
             UserRoleLbl.Content = user.Role.RoleName;
 
+            dataGridReception.Columns[1].ClipboardContentBinding.StringFormat = "d";
             ReceptionDB();
         }
 
@@ -45,7 +46,7 @@ namespace ClinicIS
                               timeP = reception.TimeReception,
                               Serv = service.ServiceName + "\n" + service.Price + " рублей"
                           };
-            dataGridReception.Columns[1].ClipboardContentBinding.StringFormat = "d";           
+                       
             dataGridReception.ItemsSource = pr_list.ToList();
         }
 

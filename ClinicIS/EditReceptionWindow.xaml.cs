@@ -33,7 +33,7 @@ namespace ClinicIS
             DBClass.GetContext().SaveChanges();
             ((UserWindow)this.Owner).ReceptionDB();
             MessageBox.Show("Информация изменена");
-            Close();
+            this.Close();
         }
     }
 }
