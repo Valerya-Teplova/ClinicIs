@@ -39,13 +39,13 @@ namespace ClinicIS
                           join service in DBClass.GetContext().Service on reception.IdService equals service.IdService
                           select new
                           {
-                              idAnim = reception.IdAnimal,                              
+                              idAnim = reception.IdReception,                              
                               nameAni = animal.Name,
                               dateP = reception.DateReception,
                               timeP = reception.TimeReception,
                               Serv = service.ServiceName + "\n" + service.Price + " рублей"
                           };
-            dataGridReception.Columns[1].ClipboardContentBinding.StringFormat = "{0: dd.MM.yyyy}"; 
+            dataGridReception.Columns[1].ClipboardContentBinding.StringFormat = "d";           
             dataGridReception.ItemsSource = pr_list.ToList();
         }
 
@@ -65,7 +65,7 @@ namespace ClinicIS
         {
             Button editbutton = sender as Button;
             //EditReceptionWindow editReceptionWindow = new EditReceptionWindow((Reception)editbutton.Tag);            
-            var editReceptionWindow = new EditReceptionWindow(DBClass.GetContext().Reception.Where(p => p.IdAnimal == (int)editbutton.Tag).First());
+            var editReceptionWindow = new EditReceptionWindow(DBClass.GetContext().Reception.Where(p => p.IdReception == (int)editbutton.Tag).First());
             editReceptionWindow.Owner = this;
             editReceptionWindow.Show();
 
