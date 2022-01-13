@@ -1,0 +1,41 @@
+﻿<Window x:Class="ClinicIS.AnimalCardWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ClinicIS"
+        mc:Ignorable="d"
+        Title="Карта пациента" Height="511" Width="591.795">
+    <Grid>
+        <Label Content="Карточка пациента" HorizontalAlignment="Center" FontFamily="Times New Roman" FontWeight="Bold" 
+            FontSize="20" Margin="166,24,188,364"/>
+        <TextBlock x:Name="AnimalIdTxB" Text="Код животного" Margin="10,66,349,337" 
+                   FontFamily="Times New Roman" FontSize="14"/>
+        <TextBlock x:Name="AnimalNameTxB" Text="Кличка животного" Margin="10,92,349,310" 
+                   FontFamily="Times New Roman" FontSize="14"/>
+        <TextBlock x:Name="AnimalTypeTxB" Text="Вид животного" Margin="10,118,349,284" 
+                   FontFamily="Times New Roman" FontSize="14"/>
+        <TextBlock x:Name="AnimalAgeTxB" Text="Возраст(в годах)" Margin="10,146,349,256" 
+                   FontFamily="Times New Roman" FontSize="14"/>
+        <TextBlock x:Name="AnimalBreedTxB" Text="Порода" Margin="10,173,349,229" 
+                   FontFamily="Times New Roman" FontSize="14"/>
+        <TextBlock x:Name="AnimalColorTxB" Text="Цвет" Margin="10,199,349,202"
+                   FontFamily="Times New Roman" FontSize="14"/>
+        <TextBlock x:Name="OwnerIdTxB" Text="ФИО Владельца" Margin="256,74,10,328" TextWrapping="Wrap" 
+                   FontFamily="Times New Roman" FontSize="14"/>
+        <TextBlock x:Name="OwnerTelTxB" Text="Номер телефона" Margin="256,104,53,298" 
+                   FontFamily="Times New Roman" FontSize="14"/>
+        <TextBlock x:Name="OwnerDesTxB" Text="Другое" Margin="256,140,53,262" TextWrapping="Wrap" 
+                   FontFamily="Times New Roman" FontSize="14"/>
+
+        <DataGrid x:Name="dataGridHistory" AutoGenerateColumns="False" HorizontalAlignment="Center" Margin="24,278,38,39" 
+                  Width="522" Height="163" FontFamily="Times New Roman" FontSize="14">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Дата" Width="100"/>
+                <DataGridTextColumn Header="Время" Width="80"/>
+                <DataGridTextColumn Header="Диагноз" Width="180"/>
+                <DataGridTextColumn Header="Назначение" Width="210"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>

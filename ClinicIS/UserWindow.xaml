@@ -1,0 +1,42 @@
+﻿<Window x:Class="ClinicIS.UserWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ClinicIS"
+        mc:Ignorable="d"
+        Title="Окно пользователя" Height="500" Width="1000" Closing="Window_Closing">
+    <Grid>
+        <Label x:Name="UserNameLbl" Content="Фамилия Имя Отчество" HorizontalAlignment="Left" Margin="748,10,0,0" 
+               VerticalAlignment="Top" FontSize="14" FontFamily="Times New Roman"/>
+        <Label x:Name="UserRoleLbl" Content="Роль пользователя" HorizontalAlignment="Left" Margin="807,41,0,0" 
+               VerticalAlignment="Top" FontSize="14" FontFamily="Times New Roman"/>
+        <Label Content="Список приема пациентов" HorizontalAlignment="Left" Margin="24,61,0,0" 
+               VerticalAlignment="Top" FontSize="20" FontFamily="Times New Roman" FontWeight="Bold"/>
+        <DataGrid x:Name="dataGridReception" HorizontalAlignment="Left" Height="264" Margin="24,113,0,0" 
+                  VerticalAlignment="Top" Width="698" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Кличка животного" Width="144">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Label Tag="{Binding idAnim}" MouseDoubleClick="Label_MouseDoubleClick" Content="{Binding nameAni}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Дата приема" Binding="{Binding dateP}" Width="120"/>
+                <DataGridTextColumn Header="Время приема" Binding="{Binding timeP}" Width="130"/>
+                <DataGridTextColumn Header="Услуга" Binding="{Binding Serv}" Width="150"/>
+                <DataGridTemplateColumn Header="Изменение" Width="150">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button x:Name="edBut" Tag="{Binding idAnim}" Content="Изменить" Click="edBut_Click"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button x:Name="AddReception" Content="Добавление" Tag="{Binding addRecep}" 
+                HorizontalAlignment="Left" Margin="302,69,0,0" VerticalAlignment="Top" Width="89" Click="AddReception_Click"/>
+        <Button Content="Удаление" HorizontalAlignment="Left" Margin="647,69,0,0" VerticalAlignment="Top" Width="75"/>
+    </Grid>
+</Window>

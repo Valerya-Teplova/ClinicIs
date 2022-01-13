@@ -1,0 +1,21 @@
+﻿<Window x:Class="ClinicIS.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ClinicIS"
+        mc:Ignorable="d"
+        Title="Авторизация" Height="450" Width="800">
+    <Grid>
+        <Image HorizontalAlignment="Left" Height="150" Margin="105,65,0,0" 
+               VerticalAlignment="Top" Width="169" Source="Resources/Images/нет изображения.png"/>
+        <Label Content="Авторизация в систему" HorizontalAlignment="Left" Margin="451,65,0,0" 
+               VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="18" FontWeight="Bold"/>
+        <Label Content="Логин:" HorizontalAlignment="Left" Margin="396,147,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="16"/>
+        <Label Content="Пароль:" HorizontalAlignment="Left" Margin="396,193,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="16"/>
+        <TextBox x:Name="LoginTxB" HorizontalAlignment="Left" Height="23" Margin="481,152,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="220"/>
+        <PasswordBox x:Name="PasswordPsB" HorizontalAlignment="Left" Margin="481,199,0,0" VerticalAlignment="Top" Width="220" Height="22"/>
+        <Button x:Name="AuthBtn" Content="Войти" HorizontalAlignment="Left" Margin="519,268,0,0" VerticalAlignment="Top" Width="100" Height="25" Click="AuthBtn_Click"/>
+
+    </Grid>
+</Window>
