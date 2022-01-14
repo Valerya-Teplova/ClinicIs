@@ -25,10 +25,11 @@ namespace ClinicIS
         public string Name { get; set; }
         public string Patronymic { get; set; }
         public long Telephone { get; set; }
-        public string Gender { get; set; }
+        public Nullable<int> IdGender { get; set; }
         public string Description { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Animal> Animal { get; set; }
+        public virtual TypeGender TypeGender { get; set; }
     }
 }

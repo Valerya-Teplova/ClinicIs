@@ -27,13 +27,18 @@ namespace ClinicIS
     
         public virtual DbSet<Animal> Animal { get; set; }
         public virtual DbSet<Appointment> Appointment { get; set; }
+        public virtual DbSet<CategoryAnimal> CategoryAnimal { get; set; }
         public virtual DbSet<GroupMedicine> GroupMedicine { get; set; }
         public virtual DbSet<Medicine> Medicine { get; set; }
+        public virtual DbSet<MedicineAppointment> MedicineAppointment { get; set; }
         public virtual DbSet<Owner> Owner { get; set; }
         public virtual DbSet<Reception> Reception { get; set; }
         public virtual DbSet<Role> Role { get; set; }
         public virtual DbSet<Service> Service { get; set; }
+        public virtual DbSet<ServiceReception> ServiceReception { get; set; }
+        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<TypeAnimal> TypeAnimal { get; set; }
+        public virtual DbSet<TypeGender> TypeGender { get; set; }
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<Vaccination> Vaccination { get; set; }
         public virtual DbSet<VisitHistory> VisitHistory { get; set; }

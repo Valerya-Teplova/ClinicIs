@@ -12,19 +12,14 @@ namespace ClinicIS
     using System;
     using System.Collections.Generic;
     
-    public partial class Service
+    public partial class MedicineAppointment
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Service()
-        {
-            this.ServiceReception = new HashSet<ServiceReception>();
-        }
+        public int IdMedicineAppointment { get; set; }
+        public int IdMedicine { get; set; }
+        public int IdAppointment { get; set; }
+        public Nullable<double> Dose { get; set; }
     
-        public int IdService { get; set; }
-        public string ServiceName { get; set; }
-        public double Price { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ServiceReception> ServiceReception { get; set; }
+        public virtual Appointment Appointment { get; set; }
+        public virtual Medicine Medicine { get; set; }
     }
 }

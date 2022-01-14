@@ -35,19 +35,20 @@ namespace ClinicIS
         public void ReceptionDB()
         {
             DBClass.GetContext().ChangeTracker.Entries().ToList().ForEach(p => p.Reload());
-            var pr_list = from reception in DBClass.GetContext().Reception
-                          join animal in DBClass.GetContext().Animal on reception.IdAnimal equals animal.IdAnimal
-                          join service in DBClass.GetContext().Service on reception.IdService equals service.IdService
-                          select new
-                          {
-                              idAnim = reception.IdReception,                              
-                              nameAni = animal.Name,
-                              dateP = reception.DateReception,
-                              timeP = reception.TimeReception,
-                              Serv = service.ServiceName + "\n" + service.Price + " рублей"
-                          };
+            var reception_list = from receptionservice in DBClass.GetContext().ServiceReception
+                                 join reception in DBClass.GetContext().Reception on receptionservice.IdReception equals reception.IdReception
+                                 join service in DBClass.GetContext().Service on receptionservice.IdService equals service.IdService
+                                 join animal in DBClass.GetContext().Animal on reception.IdAnimal equals animal.IdAnimal
+                                 select new
+                                 {
+                                     idAnim = receptionservice.IdReception,
+                                     nameAni = animal.Name,
+                                     dateP = reception.DateReception,
+                                     timeP = reception.TimeReception,
+                                     Serv = service.ServiceName + "\n" + service.Price + " рублей"
+                                 };            
                        
-            dataGridReception.ItemsSource = pr_list.ToList();
+            dataGridReception.ItemsSource = reception_list.ToList();
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)

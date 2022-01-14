@@ -19,12 +19,20 @@ namespace ClinicIS
     /// </summary>
     public partial class EditReceptionWindow : Window
     {
+        public Reception receptions { get; set; }
         public EditReceptionWindow(Reception reception)
         {
             InitializeComponent();
-
-            DataContext = reception;
+            receptions = reception;
+            DataContext = receptions;
             AnimalNameCmB.ItemsSource = DBClass.GetContext().Animal.ToList();
+            //ServiceNameCmB.ItemsSource = DBClass.GetContext().Service.ToList();
+
+            UpdateServiceList();
+        }
+
+        private void UpdateServiceList()
+        {
             ServiceNameCmB.ItemsSource = DBClass.GetContext().Service.ToList();
         }
 

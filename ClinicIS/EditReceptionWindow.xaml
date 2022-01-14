@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ClinicIS"
         mc:Ignorable="d"
-        Title="Редактирование приема пациента" Height="376" Width="475.151">
+        Title="Редактирование приема пациента" Height="479" Width="515.151">
     <Grid>
         <Label Content="Кличка животного" HorizontalAlignment="Left" Margin="29,79,0,0" VerticalAlignment="Top"
                FontFamily="Times New Roman" FontSize="14"/>
@@ -13,19 +13,46 @@
             FontFamily="Times New Roman" FontSize="14"/>
         <Label Content="Время приема" HorizontalAlignment="Left" Margin="29,155,0,0" VerticalAlignment="Top"
             FontFamily="Times New Roman" FontSize="14"/>
-        <Label Content="Услуга" HorizontalAlignment="Left" Margin="29,231,0,0" VerticalAlignment="Top"
+        <Label Content="Услуга" HorizontalAlignment="Left" Margin="32,302,0,0" VerticalAlignment="Top"
+            FontFamily="Times New Roman" FontSize="14" Width="59"/>
+        <ComboBox Name="AnimalNameCmB" SelectedItem="{Binding Animal}" DisplayMemberPath="info" HorizontalAlignment="Left"
+                  Margin="155,83,0,0" VerticalAlignment="Top" Width="264"/>
+        <DatePicker Name="DateRecepDP" SelectedDate="{Binding DateReception}" HorizontalAlignment="Left"
+                    Margin="155,114,0,0" VerticalAlignment="Top" Width="264"/>
+        <TextBox Name="TimeRecepTxB" Text="{Binding TimeReception}" HorizontalAlignment="Left" Height="23" Margin="155,155,0,0" TextWrapping="Wrap" 
+                 VerticalAlignment="Top" Width="264"/>
+        <Button x:Name="EditBtn"  Content="Изменить" HorizontalAlignment="Left" Margin="368,409,0,0"
+                VerticalAlignment="Top" Width="129" Click="EditBtn_Click"/>
+        <Label Content="Редактировать" HorizontalAlignment="Left" Margin="142,23,0,0" VerticalAlignment="Top"
+               FontFamily="Times New Roman" FontSize="20" FontWeight="Bold"/>
+        <Label Content="Диагноз" HorizontalAlignment="Left" Margin="32,240,0,0" VerticalAlignment="Top"
             FontFamily="Times New Roman" FontSize="14"/>
-        <ComboBox Name="AnimalNameCmB" SelectedItem="{Binding Animal}" DisplayMemberPath="info" HorizontalAlignment="Left" Margin="209,83,0,0" VerticalAlignment="Top" Width="215"/>
-        <DatePicker Name="DateRecepDP" Text="{Binding dateP}" HorizontalAlignment="Left" Margin="209,116,0,0" VerticalAlignment="Top" Width="215"/>
-        <TextBox Name="TimeRecepTxB" Text="{Binding TimeReception}" HorizontalAlignment="Left" Height="23" Margin="209,156,0,0" TextWrapping="Wrap" 
-                 VerticalAlignment="Top" Width="215"/>
-        <ComboBox Name="ServiceNameCmB" SelectedItem="{Binding Service}" DisplayMemberPath="ServiceName" HorizontalAlignment="Left" Margin="209,235,0,0" VerticalAlignment="Top" Width="215"/>
-        <Button x:Name="EditBtn"  Content="Изменить" HorizontalAlignment="Left" Margin="176,286,0,0" VerticalAlignment="Top" Width="129" Click="EditBtn_Click"/>
-        <Label Content="Редактировать" HorizontalAlignment="Left" Margin="142,23,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="20" FontWeight="Bold"/>
-        <Label Content="Диагноз" HorizontalAlignment="Left" Margin="29,195,0,0" VerticalAlignment="Top"
+        <TextBox x:Name="DiagnosTxB" Text="{Binding Diagnoses}" HorizontalAlignment="Left" Height="38"
+                Margin="155,235,0,0" TextWrapping="Wrap" 
+                VerticalAlignment="Top" Width="264"/>
+        <Label Content="Анамнез" HorizontalAlignment="Left" Margin="29,192,0,0" VerticalAlignment="Top"
             FontFamily="Times New Roman" FontSize="14"/>
-        <TextBox x:Name="DiagnosTxB" Text="{Binding Diagnoses}" HorizontalAlignment="Left" Height="23" Margin="209,195,0,0" TextWrapping="Wrap" 
-            VerticalAlignment="Top" Width="215"/>
+        <TextBox x:Name="AnamnesTxB" Text="{Binding Anamnesis}" HorizontalAlignment="Left" Height="35" Margin="155,192,0,0" TextWrapping="Wrap" 
+            VerticalAlignment="Top" Width="264"/>
+        <StackPanel HorizontalAlignment="Left" Height="106" Margin="155,278,0,0" 
+                    VerticalAlignment="Top" Width="318">
+            <ListView Name="serviceListView" Height="68">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextBox x:Name="serviceName" Text="{Binding Service.ServiceName}"/>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <StackPanel Orientation="Horizontal" Height="37">
+                <ComboBox x:Name="ServiceNameCmB" SelectedItem="{Binding Service}" DisplayMemberPath="ServiceName" 
+                  HorizontalAlignment="Left" VerticalAlignment="Center" Width="157" Margin="0,10,0,5"/>
+                <Button x:Name="addServiceBtn" Margin="10,10,0,5" Content="Добавить"
+                        Width="70"/>
+                <Button x:Name="deleteServiceBtn" Margin="10,10,0,5" Content="Удалить"
+                        Width="70"/>
+            </StackPanel>
+
+        </StackPanel>
 
 
     </Grid>

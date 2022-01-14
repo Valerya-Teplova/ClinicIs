@@ -58,7 +58,7 @@ namespace ClinicIS
                 TimeReception = TimeSpan.Parse(TimeRecepTxB.Text),
                 Animal = AnimalNameCmB.SelectedItem as Animal,
                 Anamnesis = AnamnesTxB.Text,
-                Service = ServiceNameCmB.SelectedItem as Service,
+                //Service = ServiceNameCmB.SelectedItem as Service, //ошибка при соеденительной таблице
                 User = UserNameCmB.SelectedItem as User
             });
             DBClass.GetContext().SaveChanges();

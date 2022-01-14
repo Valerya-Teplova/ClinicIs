@@ -17,6 +17,7 @@ namespace ClinicIS
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Reception()
         {
+            this.ServiceReception = new HashSet<ServiceReception>();
             this.VisitHistory = new HashSet<VisitHistory>();
         }
     
@@ -27,11 +28,12 @@ namespace ClinicIS
         public System.TimeSpan TimeReception { get; set; }
         public string Anamnesis { get; set; }
         public string Diagnoses { get; set; }
-        public int IdService { get; set; }
+        public Nullable<bool> Finish { get; set; }
     
         public virtual Animal Animal { get; set; }
-        public virtual Service Service { get; set; }
         public virtual User User { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ServiceReception> ServiceReception { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<VisitHistory> VisitHistory { get; set; }
     }

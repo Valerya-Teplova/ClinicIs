@@ -12,26 +12,18 @@ namespace ClinicIS
     using System;
     using System.Collections.Generic;
     
-    public partial class Medicine
+    public partial class TypeGender
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Medicine()
+        public TypeGender()
         {
-            this.MedicineAppointment = new HashSet<MedicineAppointment>();
-            this.Vaccination = new HashSet<Vaccination>();
+            this.Owner = new HashSet<Owner>();
         }
     
-        public int IdMedicine { get; set; }
-        public string MedicineName { get; set; }
-        public int IdGroupMedicine { get; set; }
-        public string Unit { get; set; }
-        public string Count { get; set; }
-        public string Price { get; set; }
+        public int IdGender { get; set; }
+        public string GenderName { get; set; }
     
-        public virtual GroupMedicine GroupMedicine { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<MedicineAppointment> MedicineAppointment { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Vaccination> Vaccination { get; set; }
+        public virtual ICollection<Owner> Owner { get; set; }
     }
 }

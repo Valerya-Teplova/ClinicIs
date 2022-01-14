@@ -20,6 +20,7 @@ namespace ClinicIS
             this.Appointment = new HashSet<Appointment>();
             this.Reception = new HashSet<Reception>();
             this.Vaccination = new HashSet<Vaccination>();
+            this.VisitHistory = new HashSet<VisitHistory>();
         }
     
         public int IdAnimal { get; set; }
@@ -29,17 +30,18 @@ namespace ClinicIS
         public double Age { get; set; }
         public string Breed { get; set; }
         public string Color { get; set; }
-        public Nullable<int> IdVisitHistory { get; set; }
-        public string info { get { return IdAnimal + " " + Name; } }
+        public Nullable<int> IdCategoryAnimal { get; set; }
     
+        public virtual CategoryAnimal CategoryAnimal { get; set; }
         public virtual Owner Owner { get; set; }
         public virtual TypeAnimal TypeAnimal { get; set; }
-        public virtual VisitHistory VisitHistory { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Appointment> Appointment { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Reception> Reception { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Vaccination> Vaccination { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<VisitHistory> VisitHistory { get; set; }
     }
 }

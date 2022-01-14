@@ -16,7 +16,7 @@
           <Property Name="Age" Type="float" Nullable="false" />
           <Property Name="Breed" Type="nvarchar" MaxLength="70" Nullable="false" />
           <Property Name="Color" Type="nvarchar" MaxLength="60" Nullable="false" />
-          <Property Name="IdVisitHistory" Type="int" />
+          <Property Name="IdCategoryAnimal" Type="int" />
         </EntityType>
         <EntityType Name="Appointment">
           <Key>
@@ -27,10 +27,15 @@
           <Property Name="IdAnimal" Type="int" Nullable="false" />
           <Property Name="Appointment" Type="nvarchar(max)" Nullable="false" />
           <Property Name="DateAppointment" Type="date" Nullable="false" />
-          <Property Name="IdMedicine" Type="int" />
-          <Property Name="Dose" Type="float" />
           <Property Name="DateRepeatReception" Type="date" />
-          <Property Name="Finish" Type="bit" Nullable="false" />
+          <Property Name="Finish" Type="bit" />
+        </EntityType>
+        <EntityType Name="CategoryAnimal">
+          <Key>
+            <PropertyRef Name="IdCategoryAnimal" />
+          </Key>
+          <Property Name="IdCategoryAnimal" Type="int" Nullable="false" />
+          <Property Name="CategoryName" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="GroupMedicine">
           <Key>
@@ -50,6 +55,15 @@
           <Property Name="Count" Type="nchar" MaxLength="10" />
           <Property Name="Price" Type="nchar" MaxLength="10" />
         </EntityType>
+        <EntityType Name="MedicineAppointment">
+          <Key>
+            <PropertyRef Name="IdMedicineAppointment" />
+          </Key>
+          <Property Name="IdMedicineAppointment" Type="int" Nullable="false" />
+          <Property Name="IdMedicine" Type="int" Nullable="false" />
+          <Property Name="IdAppointment" Type="int" Nullable="false" />
+          <Property Name="Dose" Type="float" />
+        </EntityType>
         <EntityType Name="Owner">
           <Key>
             <PropertyRef Name="IdOwner" />
@@ -59,7 +73,7 @@
           <Property Name="Name" Type="nvarchar" MaxLength="70" Nullable="false" />
           <Property Name="Patronymic" Type="nvarchar" MaxLength="70" Nullable="false" />
           <Property Name="Telephone" Type="bigint" Nullable="false" />
-          <Property Name="Gender" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="IdGender" Type="int" />
           <Property Name="Description" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="Reception">
@@ -73,7 +87,7 @@
           <Property Name="TimeReception" Type="time" Precision="0" Nullable="false" />
           <Property Name="Anamnesis" Type="nvarchar(max)" />
           <Property Name="Diagnoses" Type="nvarchar(max)" />
-          <Property Name="IdService" Type="int" Nullable="false" />
+          <Property Name="Finish" Type="bit" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -90,12 +104,37 @@
           <Property Name="ServiceName" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="Price" Type="float" Nullable="false" />
         </EntityType>
+        <EntityType Name="ServiceReception">
+          <Key>
+            <PropertyRef Name="IdServiceReception" />
+          </Key>
+          <Property Name="IdServiceReception" Type="int" Nullable="false" />
+          <Property Name="IdService" Type="int" Nullable="false" />
+          <Property Name="IdReception" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
         <EntityType Name="TypeAnimal">
           <Key>
             <PropertyRef Name="IdType" />
           </Key>
           <Property Name="IdType" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TypeName" Type="nvarchar" MaxLength="60" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TypeGender">
+          <Key>
+            <PropertyRef Name="IdGender" />
+          </Key>
+          <Property Name="IdGender" Type="int" Nullable="false" />
+          <Property Name="GenderName" Type="nvarchar" MaxLength="10" Nullable="false" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -134,6 +173,18 @@
           <Property Name="IdAppointment" Type="int" Nullable="false" />
           <Property Name="IdReception" Type="int" Nullable="false" />
         </EntityType>
+        <Association Name="FK_Animal_CategoryAnimal">
+          <End Role="CategoryAnimal" Type="Self.CategoryAnimal" Multiplicity="0..1" />
+          <End Role="Animal" Type="Self.Animal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CategoryAnimal">
+              <PropertyRef Name="IdCategoryAnimal" />
+            </Principal>
+            <Dependent Role="Animal">
+              <PropertyRef Name="IdCategoryAnimal" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Animal_Owner">
           <End Role="Owner" Type="Self.Owner" Multiplicity="1" />
           <End Role="Animal" Type="Self.Animal" Multiplicity="*" />
@@ -158,18 +209,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Animal_VisitHistory">
-          <End Role="VisitHistory" Type="Self.VisitHistory" Multiplicity="0..1" />
-          <End Role="Animal" Type="Self.Animal" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="VisitHistory">
-              <PropertyRef Name="IdVisitHistory" />
-            </Principal>
-            <Dependent Role="Animal">
-              <PropertyRef Name="IdVisitHistory" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Appointment_Animal">
           <End Role="Animal" Type="Self.Animal" Multiplicity="1" />
           <End Role="Appointment" Type="Self.Appointment" Multiplicity="*" />
@@ -179,18 +218,6 @@
             </Principal>
             <Dependent Role="Appointment">
               <PropertyRef Name="IdAnimal" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Appointment_Medicine">
-          <End Role="Medicine" Type="Self.Medicine" Multiplicity="0..1" />
-          <End Role="Appointment" Type="Self.Appointment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Medicine">
-              <PropertyRef Name="IdMedicine" />
-            </Principal>
-            <Dependent Role="Appointment">
-              <PropertyRef Name="IdMedicine" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -218,6 +245,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_MedicineAppointment_Appointment">
+          <End Role="Appointment" Type="Self.Appointment" Multiplicity="1" />
+          <End Role="MedicineAppointment" Type="Self.MedicineAppointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Appointment">
+              <PropertyRef Name="IdAppointment" />
+            </Principal>
+            <Dependent Role="MedicineAppointment">
+              <PropertyRef Name="IdAppointment" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MedicineAppointment_Medicine">
+          <End Role="Medicine" Type="Self.Medicine" Multiplicity="1" />
+          <End Role="MedicineAppointment" Type="Self.MedicineAppointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Medicine">
+              <PropertyRef Name="IdMedicine" />
+            </Principal>
+            <Dependent Role="MedicineAppointment">
+              <PropertyRef Name="IdMedicine" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Owner_TypeGender">
+          <End Role="TypeGender" Type="Self.TypeGender" Multiplicity="0..1" />
+          <End Role="Owner" Type="Self.Owner" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypeGender">
+              <PropertyRef Name="IdGender" />
+            </Principal>
+            <Dependent Role="Owner">
+              <PropertyRef Name="IdGender" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Reception_Animal">
           <End Role="Animal" Type="Self.Animal" Multiplicity="1" />
           <End Role="Reception" Type="Self.Reception" Multiplicity="*" />
@@ -230,18 +293,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Reception_Service">
-          <End Role="Service" Type="Self.Service" Multiplicity="1" />
-          <End Role="Reception" Type="Self.Reception" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Service">
-              <PropertyRef Name="IdService" />
-            </Principal>
-            <Dependent Role="Reception">
-              <PropertyRef Name="IdService" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Reception_User">
           <End Role="User" Type="Self.User" Multiplicity="1" />
           <End Role="Reception" Type="Self.Reception" Multiplicity="*" />
@@ -251,6 +302,30 @@
             </Principal>
             <Dependent Role="Reception">
               <PropertyRef Name="IdUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ServiceReception_Reception">
+          <End Role="Reception" Type="Self.Reception" Multiplicity="1" />
+          <End Role="ServiceReception" Type="Self.ServiceReception" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Reception">
+              <PropertyRef Name="IdReception" />
+            </Principal>
+            <Dependent Role="ServiceReception">
+              <PropertyRef Name="IdReception" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ServiceReception_Service">
+          <End Role="Service" Type="Self.Service" Multiplicity="1" />
+          <End Role="ServiceReception" Type="Self.ServiceReception" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Service">
+              <PropertyRef Name="IdService" />
+            </Principal>
+            <Dependent Role="ServiceReception">
+              <PropertyRef Name="IdService" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -302,6 +377,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_VisitHistory_Animal">
+          <End Role="Animal" Type="Self.Animal" Multiplicity="1" />
+          <End Role="VisitHistory" Type="Self.VisitHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Animal">
+              <PropertyRef Name="IdAnimal" />
+            </Principal>
+            <Dependent Role="VisitHistory">
+              <PropertyRef Name="IdAnimal" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_VisitHistory_Appointment">
           <End Role="Appointment" Type="Self.Appointment" Multiplicity="1" />
           <End Role="VisitHistory" Type="Self.VisitHistory" Multiplicity="*" />
@@ -329,16 +416,25 @@
         <EntityContainer Name="Хранилище ClinicModelContainer">
           <EntitySet Name="Animal" EntityType="Self.Animal" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Appointment" EntityType="Self.Appointment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CategoryAnimal" EntityType="Self.CategoryAnimal" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GroupMedicine" EntityType="Self.GroupMedicine" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Medicine" EntityType="Self.Medicine" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MedicineAppointment" EntityType="Self.MedicineAppointment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Owner" EntityType="Self.Owner" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Reception" EntityType="Self.Reception" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Service" EntityType="Self.Service" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ServiceReception" EntityType="Self.ServiceReception" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TypeAnimal" EntityType="Self.TypeAnimal" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TypeGender" EntityType="Self.TypeGender" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Vaccination" EntityType="Self.Vaccination" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="VisitHistory" EntityType="Self.VisitHistory" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Animal_CategoryAnimal" Association="Self.FK_Animal_CategoryAnimal">
+            <End Role="CategoryAnimal" EntitySet="CategoryAnimal" />
+            <End Role="Animal" EntitySet="Animal" />
+          </AssociationSet>
           <AssociationSet Name="FK_Animal_Owner" Association="Self.FK_Animal_Owner">
             <End Role="Owner" EntitySet="Owner" />
             <End Role="Animal" EntitySet="Animal" />
@@ -347,16 +443,8 @@
             <End Role="TypeAnimal" EntitySet="TypeAnimal" />
             <End Role="Animal" EntitySet="Animal" />
           </AssociationSet>
-          <AssociationSet Name="FK_Animal_VisitHistory" Association="Self.FK_Animal_VisitHistory">
-            <End Role="VisitHistory" EntitySet="VisitHistory" />
-            <End Role="Animal" EntitySet="Animal" />
-          </AssociationSet>
           <AssociationSet Name="FK_Appointment_Animal" Association="Self.FK_Appointment_Animal">
             <End Role="Animal" EntitySet="Animal" />
-            <End Role="Appointment" EntitySet="Appointment" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Appointment_Medicine" Association="Self.FK_Appointment_Medicine">
-            <End Role="Medicine" EntitySet="Medicine" />
             <End Role="Appointment" EntitySet="Appointment" />
           </AssociationSet>
           <AssociationSet Name="FK_Appointment_User" Association="Self.FK_Appointment_User">
@@ -367,17 +455,33 @@
             <End Role="GroupMedicine" EntitySet="GroupMedicine" />
             <End Role="Medicine" EntitySet="Medicine" />
           </AssociationSet>
+          <AssociationSet Name="FK_MedicineAppointment_Appointment" Association="Self.FK_MedicineAppointment_Appointment">
+            <End Role="Appointment" EntitySet="Appointment" />
+            <End Role="MedicineAppointment" EntitySet="MedicineAppointment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MedicineAppointment_Medicine" Association="Self.FK_MedicineAppointment_Medicine">
+            <End Role="Medicine" EntitySet="Medicine" />
+            <End Role="MedicineAppointment" EntitySet="MedicineAppointment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Owner_TypeGender" Association="Self.FK_Owner_TypeGender">
+            <End Role="TypeGender" EntitySet="TypeGender" />
+            <End Role="Owner" EntitySet="Owner" />
+          </AssociationSet>
           <AssociationSet Name="FK_Reception_Animal" Association="Self.FK_Reception_Animal">
             <End Role="Animal" EntitySet="Animal" />
-            <End Role="Reception" EntitySet="Reception" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Reception_Service" Association="Self.FK_Reception_Service">
-            <End Role="Service" EntitySet="Service" />
             <End Role="Reception" EntitySet="Reception" />
           </AssociationSet>
           <AssociationSet Name="FK_Reception_User" Association="Self.FK_Reception_User">
             <End Role="User" EntitySet="User" />
             <End Role="Reception" EntitySet="Reception" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServiceReception_Reception" Association="Self.FK_ServiceReception_Reception">
+            <End Role="Reception" EntitySet="Reception" />
+            <End Role="ServiceReception" EntitySet="ServiceReception" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServiceReception_Service" Association="Self.FK_ServiceReception_Service">
+            <End Role="Service" EntitySet="Service" />
+            <End Role="ServiceReception" EntitySet="ServiceReception" />
           </AssociationSet>
           <AssociationSet Name="FK_User_Role" Association="Self.FK_User_Role">
             <End Role="Role" EntitySet="Role" />
@@ -395,6 +499,10 @@
             <End Role="User" EntitySet="User" />
             <End Role="Vaccination" EntitySet="Vaccination" />
           </AssociationSet>
+          <AssociationSet Name="FK_VisitHistory_Animal" Association="Self.FK_VisitHistory_Animal">
+            <End Role="Animal" EntitySet="Animal" />
+            <End Role="VisitHistory" EntitySet="VisitHistory" />
+          </AssociationSet>
           <AssociationSet Name="FK_VisitHistory_Appointment" Association="Self.FK_VisitHistory_Appointment">
             <End Role="Appointment" EntitySet="Appointment" />
             <End Role="VisitHistory" EntitySet="VisitHistory" />
@@ -411,26 +519,31 @@
         <EntityContainer Name="ClinicEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Animal" EntityType="ClinicModel.Animal" />
           <EntitySet Name="Appointment" EntityType="ClinicModel.Appointment" />
+          <EntitySet Name="CategoryAnimal" EntityType="ClinicModel.CategoryAnimal" />
           <EntitySet Name="GroupMedicine" EntityType="ClinicModel.GroupMedicine" />
           <EntitySet Name="Medicine" EntityType="ClinicModel.Medicine" />
+          <EntitySet Name="MedicineAppointment" EntityType="ClinicModel.MedicineAppointment" />
           <EntitySet Name="Owner" EntityType="ClinicModel.Owner" />
           <EntitySet Name="Reception" EntityType="ClinicModel.Reception" />
           <EntitySet Name="Role" EntityType="ClinicModel.Role" />
           <EntitySet Name="Service" EntityType="ClinicModel.Service" />
+          <EntitySet Name="ServiceReception" EntityType="ClinicModel.ServiceReception" />
+          <EntitySet Name="sysdiagrams" EntityType="ClinicModel.sysdiagrams" />
           <EntitySet Name="TypeAnimal" EntityType="ClinicModel.TypeAnimal" />
+          <EntitySet Name="TypeGender" EntityType="ClinicModel.TypeGender" />
           <EntitySet Name="User" EntityType="ClinicModel.User" />
           <EntitySet Name="Vaccination" EntityType="ClinicModel.Vaccination" />
           <EntitySet Name="VisitHistory" EntityType="ClinicModel.VisitHistory" />
+          <AssociationSet Name="FK_Animal_CategoryAnimal" Association="ClinicModel.FK_Animal_CategoryAnimal">
+            <End Role="CategoryAnimal" EntitySet="CategoryAnimal" />
+            <End Role="Animal" EntitySet="Animal" />
+          </AssociationSet>
           <AssociationSet Name="FK_Animal_Owner" Association="ClinicModel.FK_Animal_Owner">
             <End Role="Owner" EntitySet="Owner" />
             <End Role="Animal" EntitySet="Animal" />
           </AssociationSet>
           <AssociationSet Name="FK_Animal_TypeAnimal" Association="ClinicModel.FK_Animal_TypeAnimal">
             <End Role="TypeAnimal" EntitySet="TypeAnimal" />
-            <End Role="Animal" EntitySet="Animal" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Animal_VisitHistory" Association="ClinicModel.FK_Animal_VisitHistory">
-            <End Role="VisitHistory" EntitySet="VisitHistory" />
             <End Role="Animal" EntitySet="Animal" />
           </AssociationSet>
           <AssociationSet Name="FK_Appointment_Animal" Association="ClinicModel.FK_Appointment_Animal">
@@ -445,13 +558,17 @@
             <End Role="Animal" EntitySet="Animal" />
             <End Role="Vaccination" EntitySet="Vaccination" />
           </AssociationSet>
-          <AssociationSet Name="FK_Appointment_Medicine" Association="ClinicModel.FK_Appointment_Medicine">
-            <End Role="Medicine" EntitySet="Medicine" />
-            <End Role="Appointment" EntitySet="Appointment" />
+          <AssociationSet Name="FK_VisitHistory_Animal" Association="ClinicModel.FK_VisitHistory_Animal">
+            <End Role="Animal" EntitySet="Animal" />
+            <End Role="VisitHistory" EntitySet="VisitHistory" />
           </AssociationSet>
           <AssociationSet Name="FK_Appointment_User" Association="ClinicModel.FK_Appointment_User">
             <End Role="User" EntitySet="User" />
             <End Role="Appointment" EntitySet="Appointment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MedicineAppointment_Appointment" Association="ClinicModel.FK_MedicineAppointment_Appointment">
+            <End Role="Appointment" EntitySet="Appointment" />
+            <End Role="MedicineAppointment" EntitySet="MedicineAppointment" />
           </AssociationSet>
           <AssociationSet Name="FK_VisitHistory_Appointment" Association="ClinicModel.FK_VisitHistory_Appointment">
             <End Role="Appointment" EntitySet="Appointment" />
@@ -461,17 +578,25 @@
             <End Role="GroupMedicine" EntitySet="GroupMedicine" />
             <End Role="Medicine" EntitySet="Medicine" />
           </AssociationSet>
+          <AssociationSet Name="FK_MedicineAppointment_Medicine" Association="ClinicModel.FK_MedicineAppointment_Medicine">
+            <End Role="Medicine" EntitySet="Medicine" />
+            <End Role="MedicineAppointment" EntitySet="MedicineAppointment" />
+          </AssociationSet>
           <AssociationSet Name="FK_Vaccination_Medicine" Association="ClinicModel.FK_Vaccination_Medicine">
             <End Role="Medicine" EntitySet="Medicine" />
             <End Role="Vaccination" EntitySet="Vaccination" />
           </AssociationSet>
-          <AssociationSet Name="FK_Reception_Service" Association="ClinicModel.FK_Reception_Service">
-            <End Role="Service" EntitySet="Service" />
-            <End Role="Reception" EntitySet="Reception" />
+          <AssociationSet Name="FK_Owner_TypeGender" Association="ClinicModel.FK_Owner_TypeGender">
+            <End Role="TypeGender" EntitySet="TypeGender" />
+            <End Role="Owner" EntitySet="Owner" />
           </AssociationSet>
           <AssociationSet Name="FK_Reception_User" Association="ClinicModel.FK_Reception_User">
             <End Role="User" EntitySet="User" />
             <End Role="Reception" EntitySet="Reception" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServiceReception_Reception" Association="ClinicModel.FK_ServiceReception_Reception">
+            <End Role="Reception" EntitySet="Reception" />
+            <End Role="ServiceReception" EntitySet="ServiceReception" />
           </AssociationSet>
           <AssociationSet Name="FK_VisitHistory_Reception" Association="ClinicModel.FK_VisitHistory_Reception">
             <End Role="Reception" EntitySet="Reception" />
@@ -480,6 +605,10 @@
           <AssociationSet Name="FK_User_Role" Association="ClinicModel.FK_User_Role">
             <End Role="Role" EntitySet="Role" />
             <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServiceReception_Service" Association="ClinicModel.FK_ServiceReception_Service">
+            <End Role="Service" EntitySet="Service" />
+            <End Role="ServiceReception" EntitySet="ServiceReception" />
           </AssociationSet>
           <AssociationSet Name="FK_Vaccination_User" Association="ClinicModel.FK_Vaccination_User">
             <End Role="User" EntitySet="User" />
@@ -497,13 +626,14 @@
           <Property Name="Age" Type="Double" Nullable="false" />
           <Property Name="Breed" Type="String" Nullable="false" MaxLength="70" FixedLength="false" Unicode="true" />
           <Property Name="Color" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
-          <Property Name="IdVisitHistory" Type="Int32" />
+          <Property Name="IdCategoryAnimal" Type="Int32" />
+          <NavigationProperty Name="CategoryAnimal" Relationship="ClinicModel.FK_Animal_CategoryAnimal" FromRole="Animal" ToRole="CategoryAnimal" />
           <NavigationProperty Name="Owner" Relationship="ClinicModel.FK_Animal_Owner" FromRole="Animal" ToRole="Owner" />
           <NavigationProperty Name="TypeAnimal" Relationship="ClinicModel.FK_Animal_TypeAnimal" FromRole="Animal" ToRole="TypeAnimal" />
-          <NavigationProperty Name="VisitHistory" Relationship="ClinicModel.FK_Animal_VisitHistory" FromRole="Animal" ToRole="VisitHistory" />
           <NavigationProperty Name="Appointment" Relationship="ClinicModel.FK_Appointment_Animal" FromRole="Animal" ToRole="Appointment" />
           <NavigationProperty Name="Reception" Relationship="ClinicModel.FK_Reception_Animal" FromRole="Animal" ToRole="Reception" />
           <NavigationProperty Name="Vaccination" Relationship="ClinicModel.FK_Vaccination_Animal" FromRole="Animal" ToRole="Vaccination" />
+          <NavigationProperty Name="VisitHistory" Relationship="ClinicModel.FK_VisitHistory_Animal" FromRole="Animal" ToRole="VisitHistory" />
         </EntityType>
         <EntityType Name="Appointment">
           <Key>
@@ -514,14 +644,20 @@
           <Property Name="IdAnimal" Type="Int32" Nullable="false" />
           <Property Name="Appointment1" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="DateAppointment" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="IdMedicine" Type="Int32" />
-          <Property Name="Dose" Type="Double" />
           <Property Name="DateRepeatReception" Type="DateTime" Precision="0" />
-          <Property Name="Finish" Type="Boolean" Nullable="false" />
+          <Property Name="Finish" Type="Boolean" />
           <NavigationProperty Name="Animal" Relationship="ClinicModel.FK_Appointment_Animal" FromRole="Appointment" ToRole="Animal" />
-          <NavigationProperty Name="Medicine" Relationship="ClinicModel.FK_Appointment_Medicine" FromRole="Appointment" ToRole="Medicine" />
           <NavigationProperty Name="User" Relationship="ClinicModel.FK_Appointment_User" FromRole="Appointment" ToRole="User" />
+          <NavigationProperty Name="MedicineAppointment" Relationship="ClinicModel.FK_MedicineAppointment_Appointment" FromRole="Appointment" ToRole="MedicineAppointment" />
           <NavigationProperty Name="VisitHistory" Relationship="ClinicModel.FK_VisitHistory_Appointment" FromRole="Appointment" ToRole="VisitHistory" />
+        </EntityType>
+        <EntityType Name="CategoryAnimal">
+          <Key>
+            <PropertyRef Name="IdCategoryAnimal" />
+          </Key>
+          <Property Name="IdCategoryAnimal" Type="Int32" Nullable="false" />
+          <Property Name="CategoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Animal" Relationship="ClinicModel.FK_Animal_CategoryAnimal" FromRole="CategoryAnimal" ToRole="Animal" />
         </EntityType>
         <EntityType Name="GroupMedicine">
           <Key>
@@ -541,9 +677,20 @@
           <Property Name="Unit" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="Count" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="Price" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <NavigationProperty Name="Appointment" Relationship="ClinicModel.FK_Appointment_Medicine" FromRole="Medicine" ToRole="Appointment" />
           <NavigationProperty Name="GroupMedicine" Relationship="ClinicModel.FK_Medicine_GroupMedicine" FromRole="Medicine" ToRole="GroupMedicine" />
+          <NavigationProperty Name="MedicineAppointment" Relationship="ClinicModel.FK_MedicineAppointment_Medicine" FromRole="Medicine" ToRole="MedicineAppointment" />
           <NavigationProperty Name="Vaccination" Relationship="ClinicModel.FK_Vaccination_Medicine" FromRole="Medicine" ToRole="Vaccination" />
+        </EntityType>
+        <EntityType Name="MedicineAppointment">
+          <Key>
+            <PropertyRef Name="IdMedicineAppointment" />
+          </Key>
+          <Property Name="IdMedicineAppointment" Type="Int32" Nullable="false" />
+          <Property Name="IdMedicine" Type="Int32" Nullable="false" />
+          <Property Name="IdAppointment" Type="Int32" Nullable="false" />
+          <Property Name="Dose" Type="Double" />
+          <NavigationProperty Name="Appointment" Relationship="ClinicModel.FK_MedicineAppointment_Appointment" FromRole="MedicineAppointment" ToRole="Appointment" />
+          <NavigationProperty Name="Medicine" Relationship="ClinicModel.FK_MedicineAppointment_Medicine" FromRole="MedicineAppointment" ToRole="Medicine" />
         </EntityType>
         <EntityType Name="Owner">
           <Key>
@@ -554,9 +701,10 @@
           <Property Name="Name" Type="String" Nullable="false" MaxLength="70" FixedLength="false" Unicode="true" />
           <Property Name="Patronymic" Type="String" Nullable="false" MaxLength="70" FixedLength="false" Unicode="true" />
           <Property Name="Telephone" Type="Int64" Nullable="false" />
-          <Property Name="Gender" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="IdGender" Type="Int32" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Animal" Relationship="ClinicModel.FK_Animal_Owner" FromRole="Owner" ToRole="Animal" />
+          <NavigationProperty Name="TypeGender" Relationship="ClinicModel.FK_Owner_TypeGender" FromRole="Owner" ToRole="TypeGender" />
         </EntityType>
         <EntityType Name="Reception">
           <Key>
@@ -569,10 +717,10 @@
           <Property Name="TimeReception" Type="Time" Nullable="false" Precision="0" />
           <Property Name="Anamnesis" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Diagnoses" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="IdService" Type="Int32" Nullable="false" />
+          <Property Name="Finish" Type="Boolean" />
           <NavigationProperty Name="Animal" Relationship="ClinicModel.FK_Reception_Animal" FromRole="Reception" ToRole="Animal" />
-          <NavigationProperty Name="Service" Relationship="ClinicModel.FK_Reception_Service" FromRole="Reception" ToRole="Service" />
           <NavigationProperty Name="User" Relationship="ClinicModel.FK_Reception_User" FromRole="Reception" ToRole="User" />
+          <NavigationProperty Name="ServiceReception" Relationship="ClinicModel.FK_ServiceReception_Reception" FromRole="Reception" ToRole="ServiceReception" />
           <NavigationProperty Name="VisitHistory" Relationship="ClinicModel.FK_VisitHistory_Reception" FromRole="Reception" ToRole="VisitHistory" />
         </EntityType>
         <EntityType Name="Role">
@@ -590,7 +738,27 @@
           <Property Name="IdService" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ServiceName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="Price" Type="Double" Nullable="false" />
-          <NavigationProperty Name="Reception" Relationship="ClinicModel.FK_Reception_Service" FromRole="Service" ToRole="Reception" />
+          <NavigationProperty Name="ServiceReception" Relationship="ClinicModel.FK_ServiceReception_Service" FromRole="Service" ToRole="ServiceReception" />
+        </EntityType>
+        <EntityType Name="ServiceReception">
+          <Key>
+            <PropertyRef Name="IdServiceReception" />
+          </Key>
+          <Property Name="IdServiceReception" Type="Int32" Nullable="false" />
+          <Property Name="IdService" Type="Int32" Nullable="false" />
+          <Property Name="IdReception" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Reception" Relationship="ClinicModel.FK_ServiceReception_Reception" FromRole="ServiceReception" ToRole="Reception" />
+          <NavigationProperty Name="Service" Relationship="ClinicModel.FK_ServiceReception_Service" FromRole="ServiceReception" ToRole="Service" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <EntityType Name="TypeAnimal">
           <Key>
@@ -599,6 +767,14 @@
           <Property Name="IdType" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TypeName" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Animal" Relationship="ClinicModel.FK_Animal_TypeAnimal" FromRole="TypeAnimal" ToRole="Animal" />
+        </EntityType>
+        <EntityType Name="TypeGender">
+          <Key>
+            <PropertyRef Name="IdGender" />
+          </Key>
+          <Property Name="IdGender" Type="Int32" Nullable="false" />
+          <Property Name="GenderName" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Owner" Relationship="ClinicModel.FK_Owner_TypeGender" FromRole="TypeGender" ToRole="Owner" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -643,10 +819,22 @@
           <Property Name="IdAnimal" Type="Int32" Nullable="false" />
           <Property Name="IdAppointment" Type="Int32" Nullable="false" />
           <Property Name="IdReception" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Animal" Relationship="ClinicModel.FK_Animal_VisitHistory" FromRole="VisitHistory" ToRole="Animal" />
+          <NavigationProperty Name="Animal" Relationship="ClinicModel.FK_VisitHistory_Animal" FromRole="VisitHistory" ToRole="Animal" />
           <NavigationProperty Name="Appointment" Relationship="ClinicModel.FK_VisitHistory_Appointment" FromRole="VisitHistory" ToRole="Appointment" />
           <NavigationProperty Name="Reception" Relationship="ClinicModel.FK_VisitHistory_Reception" FromRole="VisitHistory" ToRole="Reception" />
         </EntityType>
+        <Association Name="FK_Animal_CategoryAnimal">
+          <End Type="ClinicModel.CategoryAnimal" Role="CategoryAnimal" Multiplicity="0..1" />
+          <End Type="ClinicModel.Animal" Role="Animal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CategoryAnimal">
+              <PropertyRef Name="IdCategoryAnimal" />
+            </Principal>
+            <Dependent Role="Animal">
+              <PropertyRef Name="IdCategoryAnimal" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Animal_Owner">
           <End Type="ClinicModel.Owner" Role="Owner" Multiplicity="1" />
           <End Type="ClinicModel.Animal" Role="Animal" Multiplicity="*" />
@@ -668,18 +856,6 @@
             </Principal>
             <Dependent Role="Animal">
               <PropertyRef Name="IdType" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Animal_VisitHistory">
-          <End Type="ClinicModel.VisitHistory" Role="VisitHistory" Multiplicity="0..1" />
-          <End Type="ClinicModel.Animal" Role="Animal" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="VisitHistory">
-              <PropertyRef Name="IdVisitHistory" />
-            </Principal>
-            <Dependent Role="Animal">
-              <PropertyRef Name="IdVisitHistory" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -719,15 +895,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Appointment_Medicine">
-          <End Type="ClinicModel.Medicine" Role="Medicine" Multiplicity="0..1" />
-          <End Type="ClinicModel.Appointment" Role="Appointment" Multiplicity="*" />
+        <Association Name="FK_VisitHistory_Animal">
+          <End Type="ClinicModel.Animal" Role="Animal" Multiplicity="1" />
+          <End Type="ClinicModel.VisitHistory" Role="VisitHistory" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Medicine">
-              <PropertyRef Name="IdMedicine" />
+            <Principal Role="Animal">
+              <PropertyRef Name="IdAnimal" />
             </Principal>
-            <Dependent Role="Appointment">
-              <PropertyRef Name="IdMedicine" />
+            <Dependent Role="VisitHistory">
+              <PropertyRef Name="IdAnimal" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -740,6 +916,18 @@
             </Principal>
             <Dependent Role="Appointment">
               <PropertyRef Name="IdUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MedicineAppointment_Appointment">
+          <End Type="ClinicModel.Appointment" Role="Appointment" Multiplicity="1" />
+          <End Type="ClinicModel.MedicineAppointment" Role="MedicineAppointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Appointment">
+              <PropertyRef Name="IdAppointment" />
+            </Principal>
+            <Dependent Role="MedicineAppointment">
+              <PropertyRef Name="IdAppointment" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -767,6 +955,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_MedicineAppointment_Medicine">
+          <End Type="ClinicModel.Medicine" Role="Medicine" Multiplicity="1" />
+          <End Type="ClinicModel.MedicineAppointment" Role="MedicineAppointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Medicine">
+              <PropertyRef Name="IdMedicine" />
+            </Principal>
+            <Dependent Role="MedicineAppointment">
+              <PropertyRef Name="IdMedicine" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Vaccination_Medicine">
           <End Type="ClinicModel.Medicine" Role="Medicine" Multiplicity="1" />
           <End Type="ClinicModel.Vaccination" Role="Vaccination" Multiplicity="*" />
@@ -779,15 +979,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Reception_Service">
-          <End Type="ClinicModel.Service" Role="Service" Multiplicity="1" />
-          <End Type="ClinicModel.Reception" Role="Reception" Multiplicity="*" />
+        <Association Name="FK_Owner_TypeGender">
+          <End Type="ClinicModel.TypeGender" Role="TypeGender" Multiplicity="0..1" />
+          <End Type="ClinicModel.Owner" Role="Owner" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Service">
-              <PropertyRef Name="IdService" />
+            <Principal Role="TypeGender">
+              <PropertyRef Name="IdGender" />
             </Principal>
-            <Dependent Role="Reception">
-              <PropertyRef Name="IdService" />
+            <Dependent Role="Owner">
+              <PropertyRef Name="IdGender" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -800,6 +1000,18 @@
             </Principal>
             <Dependent Role="Reception">
               <PropertyRef Name="IdUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ServiceReception_Reception">
+          <End Type="ClinicModel.Reception" Role="Reception" Multiplicity="1" />
+          <End Type="ClinicModel.ServiceReception" Role="ServiceReception" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Reception">
+              <PropertyRef Name="IdReception" />
+            </Principal>
+            <Dependent Role="ServiceReception">
+              <PropertyRef Name="IdReception" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -827,6 +1039,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ServiceReception_Service">
+          <End Type="ClinicModel.Service" Role="Service" Multiplicity="1" />
+          <End Type="ClinicModel.ServiceReception" Role="ServiceReception" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Service">
+              <PropertyRef Name="IdService" />
+            </Principal>
+            <Dependent Role="ServiceReception">
+              <PropertyRef Name="IdService" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Vaccination_User">
           <End Type="ClinicModel.User" Role="User" Multiplicity="1" />
           <End Type="ClinicModel.Vaccination" Role="Vaccination" Multiplicity="*" />
@@ -839,7 +1063,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -848,7 +1072,7 @@
           <EntitySetMapping Name="Animal">
             <EntityTypeMapping TypeName="ClinicModel.Animal">
               <MappingFragment StoreEntitySet="Animal">
-                <ScalarProperty Name="IdVisitHistory" ColumnName="IdVisitHistory" />
+                <ScalarProperty Name="IdCategoryAnimal" ColumnName="IdCategoryAnimal" />
                 <ScalarProperty Name="Color" ColumnName="Color" />
                 <ScalarProperty Name="Breed" ColumnName="Breed" />
                 <ScalarProperty Name="Age" ColumnName="Age" />
@@ -864,13 +1088,19 @@
               <MappingFragment StoreEntitySet="Appointment">
                 <ScalarProperty Name="Finish" ColumnName="Finish" />
                 <ScalarProperty Name="DateRepeatReception" ColumnName="DateRepeatReception" />
-                <ScalarProperty Name="Dose" ColumnName="Dose" />
-                <ScalarProperty Name="IdMedicine" ColumnName="IdMedicine" />
                 <ScalarProperty Name="DateAppointment" ColumnName="DateAppointment" />
                 <ScalarProperty Name="Appointment1" ColumnName="Appointment" />
                 <ScalarProperty Name="IdAnimal" ColumnName="IdAnimal" />
                 <ScalarProperty Name="IdUser" ColumnName="IdUser" />
                 <ScalarProperty Name="IdAppointment" ColumnName="IdAppointment" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CategoryAnimal">
+            <EntityTypeMapping TypeName="ClinicModel.CategoryAnimal">
+              <MappingFragment StoreEntitySet="CategoryAnimal">
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="IdCategoryAnimal" ColumnName="IdCategoryAnimal" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -894,11 +1124,21 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="MedicineAppointment">
+            <EntityTypeMapping TypeName="ClinicModel.MedicineAppointment">
+              <MappingFragment StoreEntitySet="MedicineAppointment">
+                <ScalarProperty Name="Dose" ColumnName="Dose" />
+                <ScalarProperty Name="IdAppointment" ColumnName="IdAppointment" />
+                <ScalarProperty Name="IdMedicine" ColumnName="IdMedicine" />
+                <ScalarProperty Name="IdMedicineAppointment" ColumnName="IdMedicineAppointment" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Owner">
             <EntityTypeMapping TypeName="ClinicModel.Owner">
               <MappingFragment StoreEntitySet="Owner">
                 <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="IdGender" ColumnName="IdGender" />
                 <ScalarProperty Name="Telephone" ColumnName="Telephone" />
                 <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -910,7 +1150,7 @@
           <EntitySetMapping Name="Reception">
             <EntityTypeMapping TypeName="ClinicModel.Reception">
               <MappingFragment StoreEntitySet="Reception">
-                <ScalarProperty Name="IdService" ColumnName="IdService" />
+                <ScalarProperty Name="Finish" ColumnName="Finish" />
                 <ScalarProperty Name="Diagnoses" ColumnName="Diagnoses" />
                 <ScalarProperty Name="Anamnesis" ColumnName="Anamnesis" />
                 <ScalarProperty Name="TimeReception" ColumnName="TimeReception" />
@@ -938,11 +1178,39 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="ServiceReception">
+            <EntityTypeMapping TypeName="ClinicModel.ServiceReception">
+              <MappingFragment StoreEntitySet="ServiceReception">
+                <ScalarProperty Name="IdReception" ColumnName="IdReception" />
+                <ScalarProperty Name="IdService" ColumnName="IdService" />
+                <ScalarProperty Name="IdServiceReception" ColumnName="IdServiceReception" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="ClinicModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="TypeAnimal">
             <EntityTypeMapping TypeName="ClinicModel.TypeAnimal">
               <MappingFragment StoreEntitySet="TypeAnimal">
                 <ScalarProperty Name="TypeName" ColumnName="TypeName" />
                 <ScalarProperty Name="IdType" ColumnName="IdType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TypeGender">
+            <EntityTypeMapping TypeName="ClinicModel.TypeGender">
+              <MappingFragment StoreEntitySet="TypeGender">
+                <ScalarProperty Name="GenderName" ColumnName="GenderName" />
+                <ScalarProperty Name="IdGender" ColumnName="IdGender" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

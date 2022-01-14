@@ -4,34 +4,43 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="912ed083185e435ea4915e4d02cb5395" Name="Diagram1" ZoomLevel="85">
-        <EntityTypeShape EntityType="ClinicModel.Animal" Width="1.5" PointX="9.75" PointY="3.75" />
-        <EntityTypeShape EntityType="ClinicModel.Appointment" Width="1.5" PointX="5.25" PointY="3.875" />
-        <EntityTypeShape EntityType="ClinicModel.GroupMedicine" Width="1.5" PointX="0.75" PointY="10.625" />
-        <EntityTypeShape EntityType="ClinicModel.Medicine" Width="1.5" PointX="3" PointY="10.125" />
-        <EntityTypeShape EntityType="ClinicModel.Owner" Width="1.5" PointX="7.5" PointY="0.875" />
-        <EntityTypeShape EntityType="ClinicModel.Reception" Width="1.5" PointX="15" PointY="4" />
-        <EntityTypeShape EntityType="ClinicModel.Role" Width="1.5" PointX="0.75" PointY="4.875" />
-        <EntityTypeShape EntityType="ClinicModel.Service" Width="1.5" PointX="12.75" PointY="0.75" />
-        <EntityTypeShape EntityType="ClinicModel.TypeAnimal" Width="1.5" PointX="7.5" PointY="8.25" />
-        <EntityTypeShape EntityType="ClinicModel.User" Width="1.5" PointX="3" PointY="3.75" />
-        <EntityTypeShape EntityType="ClinicModel.Vaccination" Width="1.5" PointX="12" PointY="4.125" />
-        <EntityTypeShape EntityType="ClinicModel.VisitHistory" Width="1.5" PointX="7.5" PointY="4.5" />
+      <Diagram DiagramId="912ed083185e435ea4915e4d02cb5395" Name="Diagram1" ZoomLevel="42">
+        <EntityTypeShape EntityType="ClinicModel.Animal" Width="1.5" PointX="5.25" PointY="6" />
+        <EntityTypeShape EntityType="ClinicModel.Appointment" Width="1.5" PointX="7.5" PointY="6.5" />
+        <EntityTypeShape EntityType="ClinicModel.CategoryAnimal" Width="1.5" PointX="3" PointY="10.375" />
+        <EntityTypeShape EntityType="ClinicModel.GroupMedicine" Width="1.5" PointX="3" PointY="18.875" />
+        <EntityTypeShape EntityType="ClinicModel.Medicine" Width="1.5" PointX="5.25" PointY="18.25" />
+        <EntityTypeShape EntityType="ClinicModel.MedicineAppointment" Width="1.5" PointX="12.75" PointY="6.875" />
+        <EntityTypeShape EntityType="ClinicModel.Owner" Width="1.5" PointX="3" PointY="6.625" />
+        <EntityTypeShape EntityType="ClinicModel.Reception" Width="1.5" PointX="10.5" PointY="6.375" />
+        <EntityTypeShape EntityType="ClinicModel.Role" Width="1.5" PointX="3" PointY="14.875" />
+        <EntityTypeShape EntityType="ClinicModel.Service" Width="1.5" PointX="10.5" PointY="11.125" />
+        <EntityTypeShape EntityType="ClinicModel.ServiceReception" Width="1.5" PointX="12.75" PointY="10" />
+        <EntityTypeShape EntityType="ClinicModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ClinicModel.TypeAnimal" Width="1.5" PointX="3" PointY="4" />
+        <EntityTypeShape EntityType="ClinicModel.TypeGender" Width="1.5" PointX="0.75" PointY="7.25" />
+        <EntityTypeShape EntityType="ClinicModel.User" Width="1.5" PointX="5.25" PointY="13.625" />
+        <EntityTypeShape EntityType="ClinicModel.Vaccination" Width="1.5" PointX="7.5" PointY="2.5" />
+        <EntityTypeShape EntityType="ClinicModel.VisitHistory" Width="1.5" PointX="12.75" PointY="3.875" />
+        <AssociationConnector Association="ClinicModel.FK_Animal_CategoryAnimal" />
         <AssociationConnector Association="ClinicModel.FK_Animal_Owner" />
         <AssociationConnector Association="ClinicModel.FK_Animal_TypeAnimal" />
-        <AssociationConnector Association="ClinicModel.FK_Animal_VisitHistory" />
         <AssociationConnector Association="ClinicModel.FK_Appointment_Animal" />
         <AssociationConnector Association="ClinicModel.FK_Reception_Animal" />
         <AssociationConnector Association="ClinicModel.FK_Vaccination_Animal" />
-        <AssociationConnector Association="ClinicModel.FK_Appointment_Medicine" />
+        <AssociationConnector Association="ClinicModel.FK_VisitHistory_Animal" />
         <AssociationConnector Association="ClinicModel.FK_Appointment_User" />
+        <AssociationConnector Association="ClinicModel.FK_MedicineAppointment_Appointment" />
         <AssociationConnector Association="ClinicModel.FK_VisitHistory_Appointment" />
         <AssociationConnector Association="ClinicModel.FK_Medicine_GroupMedicine" />
+        <AssociationConnector Association="ClinicModel.FK_MedicineAppointment_Medicine" />
         <AssociationConnector Association="ClinicModel.FK_Vaccination_Medicine" />
-        <AssociationConnector Association="ClinicModel.FK_Reception_Service" />
+        <AssociationConnector Association="ClinicModel.FK_Owner_TypeGender" />
         <AssociationConnector Association="ClinicModel.FK_Reception_User" />
+        <AssociationConnector Association="ClinicModel.FK_ServiceReception_Reception" />
         <AssociationConnector Association="ClinicModel.FK_VisitHistory_Reception" />
         <AssociationConnector Association="ClinicModel.FK_User_Role" />
+        <AssociationConnector Association="ClinicModel.FK_ServiceReception_Service" />
         <AssociationConnector Association="ClinicModel.FK_Vaccination_User" />
       </Diagram>
     </edmx:Diagrams>

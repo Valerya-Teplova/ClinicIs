@@ -17,6 +17,7 @@ namespace ClinicIS
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Appointment()
         {
+            this.MedicineAppointment = new HashSet<MedicineAppointment>();
             this.VisitHistory = new HashSet<VisitHistory>();
         }
     
@@ -25,14 +26,13 @@ namespace ClinicIS
         public int IdAnimal { get; set; }
         public string Appointment1 { get; set; }
         public System.DateTime DateAppointment { get; set; }
-        public Nullable<int> IdMedicine { get; set; }
-        public Nullable<double> Dose { get; set; }
         public Nullable<System.DateTime> DateRepeatReception { get; set; }
-        public bool Finish { get; set; }
+        public Nullable<bool> Finish { get; set; }
     
         public virtual Animal Animal { get; set; }
-        public virtual Medicine Medicine { get; set; }
         public virtual User User { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<MedicineAppointment> MedicineAppointment { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<VisitHistory> VisitHistory { get; set; }
     }
