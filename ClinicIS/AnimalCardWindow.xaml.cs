@@ -27,7 +27,7 @@ namespace ClinicIS
             var IdAn = (int)id;
             var result = DBClass.GetContext().Animal.Where(p => p.IdAnimal == IdAn);
             AnimalIdTxB.Text += ": " + id.ToString();
-            OwnerIdTxB.Text += ": " + result.First().Owner.SurName + " " + result.First().Owner.Name + " " + result.First().Owner.Patronymic;
+            OwnerIdTxB.Text += ": " + result.First().Owner.SurName + " " + result.First().Owner.Name + " " + result.First().Owner.Patronymic; // тут ошибка. про последовательность...
             AnimalTypeTxB.Text += ": " + result.First().TypeAnimal.TypeName;
             AnimalNameTxB.Text += ": " + result.First().Name;
             AnimalAgeTxB.Text += ": " + result.First().Age;

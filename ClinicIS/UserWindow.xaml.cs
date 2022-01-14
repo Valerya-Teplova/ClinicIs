@@ -42,6 +42,7 @@ namespace ClinicIS
                                  select new
                                  {
                                      idAnim = receptionservice.IdReception,
+                                     idAn = animal.IdAnimal ,
                                      nameAni = animal.Name,
                                      dateP = reception.DateReception,
                                      timeP = reception.TimeReception,

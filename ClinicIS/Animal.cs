@@ -30,6 +30,9 @@ namespace ClinicIS
         public double Age { get; set; }
         public string Breed { get; set; }
         public string Color { get; set; }
+        public string info { get { return IdAnimal + " " + Name; } }
+
+
         public Nullable<int> IdCategoryAnimal { get; set; }
     
         public virtual CategoryAnimal CategoryAnimal { get; set; }

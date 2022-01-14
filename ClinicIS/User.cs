@@ -33,6 +33,7 @@ namespace ClinicIS
         public string Category { get; set; }
         public long Telephone { get; set; }
         public string Gender { get; set; }
+        public string info { get { return SurName + " " + Name + " " + Patronymic; } }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Appointment> Appointment { get; set; }
