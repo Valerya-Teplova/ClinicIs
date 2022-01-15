@@ -19,7 +19,7 @@
                 <DataGridTemplateColumn Header="Кличка животного" Width="144">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Label Tag="{Binding idAnim}" MouseDoubleClick="Label_MouseDoubleClick" Content="{Binding nameAni}"/>
+                            <Label Tag="{Binding idAn}" MouseDoubleClick="Label_MouseDoubleClick" Content="{Binding nameAni}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
