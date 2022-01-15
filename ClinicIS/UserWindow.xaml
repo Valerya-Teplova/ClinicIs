@@ -37,6 +37,7 @@
         </DataGrid>
         <Button x:Name="AddReception" Content="Добавление" Tag="{Binding addRecep}" 
                 HorizontalAlignment="Left" Margin="302,69,0,0" VerticalAlignment="Top" Width="89" Click="AddReception_Click"/>
-        <Button Content="Удаление" HorizontalAlignment="Left" Margin="647,69,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button x:Name="deleteReception" Content="Удаление" HorizontalAlignment="Left" Margin="647,69,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button x:Name="ClientBtn" Content="Клиенты" HorizontalAlignment="Left" Margin="807,113,0,0" VerticalAlignment="Top" Width="75" Click="ClientBtn_Click"/>
     </Grid>
 </Window>

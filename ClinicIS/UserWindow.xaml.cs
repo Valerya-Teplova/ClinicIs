@@ -80,5 +80,12 @@ namespace ClinicIS
             AddReceptionWindow addReceptionWindow = new AddReceptionWindow { Owner = this };
             addReceptionWindow.Show();
         }
+
+        private void ClientBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Button clientbutton = sender as Button;
+            ClientListWindow clientListWindow = new ClientListWindow { Owner = this };
+            clientListWindow.Show();
+        }
     }
 }
